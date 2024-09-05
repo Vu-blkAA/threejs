@@ -590,7 +590,7 @@ const renderer = new _three.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 const scene = new _three.Scene();
-const camera = new _three.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+const camera = new _three.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 1000);
 const orbit = new (0, _orbitControlsJs.OrbitControls)(camera, renderer.domElement);
 const axesHelper = new _three.AxesHelper(5);
 scene.add(axesHelper);
@@ -601,7 +601,24 @@ const boxMaterial = new _three.MeshBasicMaterial({
     color: 0x00ff00
 });
 const box = new _three.Mesh(boxGeometry, boxMaterial);
-scene.add(box);
+// scene.add(box);
+const planeGeometry = new _three.PlaneGeometry(30, 30);
+const planeMaterial = new _three.MeshBasicMaterial({
+    color: 0xffffff,
+    side: _three.DoubleSide
+});
+const plane = new _three.Mesh(planeGeometry, planeMaterial);
+plane.rotation.x = -Math.PI / 2;
+// scene.add(plane);
+const gridHelper = new _three.GridHelper(30);
+scene.add(gridHelper);
+const sphereGeometry = new _three.SphereGeometry(1, 1, 3);
+const sphereMaterial = new _three.MeshBasicMaterial({
+    color: 0x0000ff,
+    wireframe: true
+});
+const sphere = new _three.Mesh(sphereGeometry, sphereMaterial);
+scene.add(sphere);
 function animate(time) {
     box.rotation.x = time / 1000;
     box.rotation.y = time / 1000;

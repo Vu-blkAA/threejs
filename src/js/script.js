@@ -10,7 +10,7 @@ document.body.appendChild(renderer.domElement);
 const scene = new THREE.Scene();
 
 const camera = new THREE.PerspectiveCamera(
-  75,
+  50,
   window.innerWidth / window.innerHeight,
   0.1,
   1000
@@ -30,7 +30,31 @@ const boxMaterial = new THREE.MeshBasicMaterial({
 });
 const box = new THREE.Mesh(boxGeometry, boxMaterial);
 
-scene.add(box);
+// scene.add(box);
+
+const planeGeometry = new THREE.PlaneGeometry(30, 30);
+const planeMaterial = new THREE.MeshBasicMaterial({
+  color: 0xffffff,
+  side: THREE.DoubleSide,
+});
+const plane = new THREE.Mesh(planeGeometry, planeMaterial);
+
+plane.rotation.x = -Math.PI / 2;
+
+// scene.add(plane);
+
+const gridHelper = new THREE.GridHelper(30);
+
+scene.add(gridHelper);
+
+const sphereGeometry = new THREE.SphereGeometry(1, 1, 3);
+const sphereMaterial = new THREE.MeshBasicMaterial({
+  color: 0x0000ff,
+  wireframe: true,
+});
+const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
+
+scene.add(sphere);
 
 function animate(time) {
   box.rotation.x = time / 1000;
