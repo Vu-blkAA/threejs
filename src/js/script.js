@@ -1,7 +1,8 @@
 import * as THREE from "three";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 
-import stars from "../image/stars.jpg";
+const doggoHref = new URL('../assets/doggo2.glb', import.meta.url).href;
 
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
@@ -16,7 +17,11 @@ const camera = new THREE.PerspectiveCamera(
   1000
 );
 
-camera.position.set(1, 0, 0)
+camera.position.set(2, 10, 10);
+
+const ambientLight = new THREE.AmbientLight(0xFFFFFF, 100000, 1);
+ambientLight.position.set(-30, 30, 0)
+scene.add(ambientLight);
 
 const orbit = new OrbitControls(camera, renderer.domElement);
 orbit.update();
@@ -24,18 +29,34 @@ orbit.update();
 const gridHelper = new THREE.GridHelper(30);
 scene.add(gridHelper);
 
-const cubeTextureLoader = new THREE.CubeTextureLoader();
-scene.background = cubeTextureLoader.load([
-  stars,
-  stars,
-  stars,
-  stars,
-  stars,
-  stars,
-]);
+const loader = new GLTFLoader();
+let mixer;
+
+loader.load(doggoHref, (gltf) => {
+  const model = gltf.scene;
+  scene.add(model);
+
+  mixer = new THREE.AnimationMixer(model);
+  const clips = gltf.animations;
+  // const clip = THREE.AnimationClip.findByName(clips, 'HeadAction');
+
+  clips.forEach((clip) => {
+    const action = mixer.clipAction(clip);
+    action.play();
+  })
+
+  // const action = mixer.clipAction(clip);
+  // action.play();
+})
+
+const clock = new THREE.Clock();
+let delta = 0;
 
 function animate() {
-
+  if (mixer) {
+    delta = clock.getDelta();
+    mixer.update(delta)
+  }
   renderer.render(scene, camera);
 }
 
