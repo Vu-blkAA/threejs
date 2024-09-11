@@ -7,7 +7,7 @@ Video 5: CannonES: (Thư viện giúp mô phỏng các va chạm, luật hấp d
       ```
     
   - Body (position, material, shape, mass, ...)
-      ```
+      ```javascript
           const boxBody = new CANNON.Body({
             shape: new CANNON.Box(new CANNON.Vec3(1, 1, 1)),
             mass: 1,
@@ -17,7 +17,7 @@ Video 5: CannonES: (Thư viện giúp mô phỏng các va chạm, luật hấp d
       ```
     
   - Material
-      ```
+      ```javascript
           const boxBodyMat = new CANNON.Material();
       ```
     
@@ -25,7 +25,7 @@ Video 5: CannonES: (Thư viện giúp mô phỏng các va chạm, luật hấp d
 
 
   - ContactMaterial (friction, addContactMaterial)
-      ```
+      ```javascript
           const groundBoxContactMat = new CANNON.ContactMaterial(
             groundBodyMat,
             boxBodyMat,
